@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+          "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  <bean id="transferService" class="marlon.banking.ddd.domain.service.TransferServiceImpl">
+  	<constructor-arg ref="accountRepository"></constructor-arg>
+  	<constructor-arg ref="transferTransactionRepository"></constructor-arg>
+  </bean>
+</beans>

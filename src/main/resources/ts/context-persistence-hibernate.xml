@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+          "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.show_sql">true</prop>
+        <prop key="hibernate.hbm2ddl.auto">update</prop>
+        <prop key="hibernate.format_sql">true</prop>
+        <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+      </props>
+    </property>
+    <property name="mappingLocations">
+      <list>
+        <value>classpath:ts/hibernate-mappings.hbm.xml</value>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="accountDAO" class="marlon.banking.ts.dao.impl.AccountDAOHibernate">
+    <constructor-arg ref="sessionFactory" />
+  </bean>
+  <bean id="transferTransactionDAO" class="marlon.banking.ts.dao.impl.TransferTransactionDAOHibernate">
+    <constructor-arg ref="sessionFactory" />
+  </bean>
+</beans>

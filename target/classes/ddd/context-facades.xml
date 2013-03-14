@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+          "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  <bean id="transferFacade" class="marlon.banking.ddd.application.TransferFacadeImpl">
+    <constructor-arg ref="accountRepository" />
+    <constructor-arg ref="transferService" />
+  </bean>
+  
+  <!-- 配置事务 -->
+  <bean id="platformTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+  <bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+    <property name="transactionManager" ref="platformTransactionManager" />
+    <property name="transactionAttributes">
+      <props>
+        <prop key="find*, get*">PROPAGATION_SUPPORTS, readOnly</prop>
+        <prop key="*">PROPAGATION_REQUIRED,-marlon.banking.ddd.domain.service.AccountNotExistedException,-marlon.banking.ddd.domain.model.AccountUnderflowException</prop>
+      </props>
+    </property>
+  </bean>
+  <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    <property name="interceptorNames">
+      <idref bean="transactionInterceptor" />
+    </property>
+    <property name="beanNames">
+    <list>
+      <!-- add your facades here... -->
+      <idref bean="transferFacade" />
+    </list>
+    </property>
+  </bean>
+</beans>

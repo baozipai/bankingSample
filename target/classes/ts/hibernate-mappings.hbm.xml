@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+  
+<hibernate-mapping  default-access="field">
+  <class name="marlon.banking.ts.model.Account" table="ACCOUNT">
+    <id name="id" column="ID">
+      <generator class="native" />
+    </id>
+    <property name="accountId" not-null="true" unique="true" />
+    <property name="balance" not-null="true" />
+  </class>
+  
+  <class name="marlon.banking.ts.model.TransferTransaction" table="TRANSFER_TRANSACTION">
+    <id name="id" column="ID">
+      <generator class="native" />
+    </id>
+    <property name="fromAccountId" not-null="true" />
+    <property name="toAccountId" not-null="true" />
+    <property name="amount" not-null="true" />
+    <property name="timestamp" not-null="true" />
+  </class>
+  
+  <query name="Account.findByAccountId">
+   from Account where accountId = ?
+  </query>
+</hibernate-mapping>
